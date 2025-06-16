@@ -1,1 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1" />
+ <title>Melbourne Lawn Mowing Services</title>
+ <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400&family=Oswald:wght@700&family=Roboto:wght@400&display=swap" rel="stylesheet" />
+ <style>
+  /* Universal Box-sizing and Base Styles */
+  * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  }
+  body {
+  font-family: 'Nunito Sans', sans-serif;
+  background-color: #f7f7f7;
+  color: #222;
+  line-height: 1.6;
+  font-size: 1.25rem;
+  text-align: center;
+  }
 
+  /* Header Styles */
+  header {
+  background-color: #4CAF50; /* Green header color */
+  color: #fff;
+  padding: 1rem 2rem; /* Original padding for desktop */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  }
+  .logo img {
+  height: 50px; /* Increased the height of the logo image */
+  }
+
+  /* Desktop Navigation */
+  nav.desktop-nav {
+  display: block; /* Default to block for desktop */
+  }
+  nav.desktop-nav a {
+  color: #fff;
+  text-decoration: none;
+  margin-left: 2rem;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  }
+
+  /* Hamburger Menu (Hidden by default on desktop) */
+  .hamburger-menu {
+  display: none; /* Hidden on desktop */
+  width: 30px;
+  height: 21px;
+  cursor: pointer;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 20;
+  }
+  .hamburger-menu .bar {
+  height: 3px;
+  background-color: #fff;
+  width: 100%;
+  }
+
+  /* Mobile Navigation (Hidden by default, shown with JS) */
+  nav.mobile-nav {
+  display: none; /* Hidden by default */
+  position: absolute;
+  top: 100%; /* Positions it right below the header */
+  left: 0;
+  width: 100%;
+  background-color: #4CAF50; /* Ensured mobile nav background matches header */
+  z-index: 15;
+  text-align: right;
+  }
+  nav.mobile-nav.open {
+  display: block; /* Toggled by JavaScript */
+  }
+  nav.mobile-nav a {
+  color: #fff;
+  display: block;
+  padding: 1rem;
+  text-transform: uppercase;
+  font-family: 'Roboto', sans-serif;
+  }
+
+  /* Hero Section Styles */
+  .hero {
+  background: url('https://github.com/mmp03patane/MOWING/blob/main/mowing.JPG?raw=true') center/cover no-repeat;
+  color: #fff;
+  padding: 4rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  }
+
+  .hero h1 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 3rem; /* Larger font for desktop */
+  line-height: 1.2;
+  margin-bottom: 1rem;
+  color: white; /* White font for the hero heading */
+  }
+
+  .hero-location-text { /* New style for "We service all of Melbourne!" */
+  font-family: 'Roboto', sans-serif;
+  font-size: 1.5rem; /* Larger font size */
+  margin-bottom: 1rem;
+  max-width: 600px;
+  color: white; /* White font */
+  }
+
+  /* Styles for the new postcode input and dropdown */
+  .postcode-lookup {
+  position: relative;
+  margin-top: 1.5rem;
+  width: 100%;
+  max-width: 350px; /* Limit width of postcode input area */
+  }
+
+  .postcode-input {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1.2rem;
+  border: none;
+  border-radius: 8px;
+  outline: none;
+  font-family: 'Roboto', sans-serif;
+  text-align: center; /* Center placeholder text */
+  }
+
+  .postcode-suggestions {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  position: absolute;
+  width: 100%;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 10; /* Ensure it's above other content */
+  text-align: left; /* Align suggestion text */
+  color: #222; /* Black text for suggestions */
+  }
+
+  .postcode-suggestions li {
+  padding: 0.8rem 1rem;
+  cursor: pointer;
+  font-size: 1rem;
+  font-family: 'Nunito Sans', sans-serif;
+  }
+
+  .postcode-suggestions li:hover {
+  background-color: #f0f0f0;
+  }
+
+  /* Services Section Styles (renamed from rubbish-types-section) */
+  .services-section {
+  background-color: #DCEDC8; /* Light green background for the section */
+  padding: 4rem 1rem;
+  text-align: center;
+  }
+
+  .services-section h2 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: #33691E; /* Dark green heading color */
+  margin-bottom: 2.5rem;
+  }
+
+  .panels-container {
+  display: flex;
+  flex-wrap: wrap; /* Allow panels to wrap to next line on smaller screens */
+  justify-content: center; /* Center panels horizontally */
+  gap: 2rem; /* Space between panels */
+  max-width: 1200px; /* Limit container width */
+  margin: 0 auto; /* Center the container */
+  }
+
+  .service-panel { /* Renamed from rubbish-panel */
+  background-color: #ffffff; /* Panel background */
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* Floating panel shadow */
+  flex: 1; /* Allow panels to grow and shrink */
+  min-width: 280px; /* Minimum width for panels */
+  max-width: 350px; /* Maximum width for panels */
+  text-align: left; /* Text inside panel is left-aligned */
+  display: flex; /* Use flexbox for internal layout */
+  flex-direction: column; /* Stack content vertically */
+  justify-content: space-between; /* Push button to the bottom */
+  }
+
+  .service-panel h3 { /* Renamed from rubbish-panel h3 */
+  font-family: 'Oswald', sans-serif;
+  font-size: 1.7rem; /* Larger font size for panel headings */
+  color: #33691E; /* A slightly darker color for heading inside panel */
+  margin-bottom: 1rem;
+  text-align: center; /* Center align H3 inside panel */
+  }
+
+  .service-panel p { /* Renamed from rubbish-panel p */
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 1.2rem; /* Larger paragraph font size inside panel */
+  color: #555;
+  line-height: 1.5;
+  margin-bottom: 1.5rem; /* Space before the button */
+  flex-grow: 1; /* Allow paragraph to take up available space */
+  text-align: center;
+  }
+
+  .panel-button {
+  background-color: #4CAF50; /* Green button */
+  color: #fff;
+  border: none;
+  padding: 0.8rem 2rem;
+  font-size: 1rem; /* Slightly smaller font size for panel buttons */
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+  display: block; /* Make button a block element */
+  width: fit-content; /* Fit content width */
+  margin: 0 auto; /* Center the button */
+  }
+
+  .panel-button:hover {
+  background-color: #81C784; /* Darker green on hover */
+  }
+
+  /* FAQ Section Styles */
+  .faq-section {
+  background-color: #ffffff; /* White background for FAQ */
+  padding: 4rem 1rem;
+  text-align: center;
+  }
+
+  .faq-section h2 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: #33691E;
+  margin-bottom: 2.5rem;
+  }
+
+  .faq-container {
+  max-width: 800px;
+  margin: 0 auto;
+  text-align: left;
+  }
+
+  .faq-item {
+  margin-bottom: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  overflow: hidden;
+  }
+
+  .faq-question {
+  background-color: #f0f0f0;
+  padding: 1rem 1.5rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease;
+  }
+
+  .faq-question:hover {
+  background-color: #e0e0e0;
+  }
+
+  .faq-question::after {
+  content: '+';
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+  }
+
+  .faq-question.active::after {
+  content: '-';
+  transform: rotate(180deg);
+  }
+
+  .faq-answer {
+  padding: 1rem 1.5rem;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 1.2rem;
+  background-color: #fff;
+  border-top: 1px solid #eee;
+  display: none; /* Hidden by default */
+  overflow: hidden;
+  }
+
+  /* Testimonials Section Styles */
+  .testimonials-section {
+  background-color: #f7f7f7; /* Light grey background */
+  padding: 4rem 1rem;
+  text-align: center;
+  }
+
+  .testimonials-section h2 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: #33691E;
+  margin-bottom: 2.5rem;
+  }
+
+  .testimonials-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  }
+
+  .testimonial-card {
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  flex: 1;
+  min-width: 280px;
+  max-width: 380px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  }
+
+  .testimonial-card::before {
+  content: '“';
+  font-family: serif;
+  font-size: 4em;
+  color: #DCEDC8; /* Matching the services section background for a subtle touch */
+  position: absolute;
+  top: 10px;
+  left: 15px;
+  line-height: 1;
+  }
+
+  .testimonial-text {
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.6;
+  margin-bottom: 1.5rem;
+  padding-top: 20px; /* Space for the quote mark */
+  font-style: italic;
+  }
+
+  .testimonial-author {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  color: #4CAF50; /* Green accent for the author name */
+  font-weight: bold;
+  text-align: right;
+  }
+
+  .stars {
+  color: gold;
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  text-align: right;
+  }
+
+  /* Quote Form Section Styles */
+  .quote-form-section {
+  background-color: #4CAF50; /* Green background */
+  padding: 4rem 1rem;
+  text-align: center;
+  }
+
+  .quote-form-section h2 {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  font-size: 2.5rem;
+  color: #ffffff; /* White heading */
+  margin-bottom: 2.5rem;
+  }
+
+  .quote-form-panel {
+  background-color: #ffffff; /* White panel */
+  padding: 3rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  max-width: 600px;
+  margin: 0 auto;
+  text-align: left;
+  color: #222; /* Black text */
+  }
+
+  .quote-form-panel label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
+  font-size: 1rem;
+  }
+
+  .quote-form-panel input[type="text"],
+  .quote-form-panel input[type="email"],
+  .quote-form-panel input[type="tel"],
+  .quote-form-panel textarea,
+  .quote-form-panel select {
+  width: 100%;
+  padding: 0.8rem;
+  margin-bottom: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-family: 'Nunito Sans', sans-serif;
+  font-size: 1rem;
+  color: #222;
+  }
+
+  .quote-form-panel textarea {
+  resize: vertical;
+  min-height: 100px;
+  }
+
+  .quote-form-panel button {
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  padding: 1rem 2.5rem;
+  font-size: 1.2rem;
+  font-family: 'Roboto', sans-serif;
+  text-transform: uppercase;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  font-weight: bold;
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+  }
+
+  .quote-form-panel button:hover {
+  background-color: #81C784;
+  }
+
+  /* --- MEDIA QUERIES FOR MOBILE (max-width: 767px) --- */
+  @media (max-width: 767px) {
+  /* Show hamburger menu and hide desktop nav on mobile */
+  .hamburger-menu {
+  display: flex; /* Show hamburger */
+  }
+  nav.desktop-nav {
+  display: none; /* Hide desktop nav */
+  }
+  /* Apply smaller header padding only on mobile */
+  header {
+  padding: 0.8rem 2rem; /* Reduced top and bottom padding for a smaller mobile header */
+  }
+
+  /* Added styles for logo adjustment on mobile */
+  .logo {
+  /* Adjust this value to align with your heading's left margin */
+  margin-left: -1rem; /* Start with a negative margin to pull it left */
+  }
+
+  /* Optional: If you want to refine the padding of the header itself
+    to give more room on the left side of the screen for the logo's new position,
+    you might also adjust the header's padding slightly:
+  */
+  header {
+  padding-left: 1.5rem; /* Example: Slightly reduce left padding of header */
+  padding-right: 1.5rem; /* Example: Slightly reduce right padding of header */
+  }
+
+  .hero {
+  padding: 3rem 1rem; /* Adjust padding for mobile hero */
+  }
+
+  .hero h1 {
+  font-size: 2.4rem; /* Smaller font for mobile heading */
+  }
+
+  .hero-location-text {
+  font-size: 1.3rem; /* Adjusted font size for mobile */
+  }
+
+  .hero-cta-text {
+  font-size: 1.3rem; /* Adjusted font size for mobile CTA text */
+  }
+
+  .postcode-input {
+  padding: 0.8rem;
+  font-size: 1rem;
+  }
+
+  .postcode-suggestions li {
+  font-size: 0.9rem;
+  padding: 0.6rem 0.8rem;
+  }
+
+  /* Services Section Mobile Styles */
+  .services-section h2 {
+  font-size: 1.8rem; /* Smaller H2 for mobile */
+  margin-bottom: 1.5rem;
+  }
+
+  .panels-container {
+  flex-direction: column; /* Stack panels vertically on mobile */
+  align-items: center; /* Center panels when stacked */
+  }
+
+  .service-panel {
+  padding: 1.5rem;
+  min-width: unset; /* Remove min-width to allow better shrinking on very small screens */
+  max-width: 90%; /* Take up more width on small mobile screens */
+  margin-left: auto; /* Center individual panels */
+  margin-right: auto; /* Center individual panels */
+  }
+
+  .service-panel h3 {
+  font-size: 1.5rem; /* Slightly larger H3 for mobile panels */
+  }
+
+  .service-panel p {
+  font-size: 1.3rem; /* Slightly larger paragraph text for mobile panels */
+  }
+
+  .panel-button {
+  font-size: 0.9rem; /* Smaller font for panel buttons on mobile */
+  padding: 0.7rem 1.8rem;
+  }
+
+  /* FAQ Section Mobile Styles */
+  .faq-section h2 {
+  font-size: 1.8rem;
+  }
+
+  .faq-question {
+  font-size: 1.2rem;
+  padding: 0.8rem 1rem;
+  }
+
+  .faq-answer {
+  font-size: 1.15rem;
+  padding: 0.8rem 1rem;
+  }
+
+  /* Testimonials Section Mobile Styles */
+  .testimonials-section h2 {
+  font-size: 1.8rem;
+  }
+
+  .testimonial-card {
+  padding: 1.5rem;
+  min-width: unset;
+  max-width: 90%;
+  }
+
+  .testimonial-text {
+  font-size: 1.15rem;
+  }
+
+  .testimonial-author {
+  font-size: 1.15rem;
+  }
+
+  /* Quote Form Section Mobile Styles */
+  .quote-form-section h2 {
+  font-size: 1.8rem;
+  }
+
+  .quote-form-panel {
+  padding: 2rem 1.5rem;
+  max-width: 90%;
+  }
+
+  .quote-form-panel label {
+  font-size: 0.9rem;
+  }
+
+  .quote-form-panel input[type="text"],
+  .quote-form-panel input[type="email"],
+  .quote-form-panel input[type="tel"],
+  .quote-form-panel textarea,
+  .quote-form-panel select {
+  padding: 0.6rem;
+  font-size: 1.15rem;
+  margin-bottom: 1rem;
+  }
+
+  .quote-form-panel button {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  }
+  }
+ </style>
+</head>
+<body>
+ <header>
+  <a href="index.html" class="logo">
+  <img src="https://github.com/mmp03patane/JUNK/blob/main/Junk.png?raw=true" alt="Lawn Services Logo" />
+  </a>
+  <div class="hamburger-menu" onclick="toggleMobileMenu()">
+  <div class="bar"></div>
+  <div class="bar"></div>
+  <div class="bar"></div>
+  </div>
+  <nav class="desktop-nav">
+  <a href="contact.html">Contact</a>
+  </nav>
+  <nav class="mobile-nav" id="mobileNav">
+  <a href="contact.html">Contact</a>
+  </nav>
+ </header>
+
+ <section class="hero">
+  <h1>GET THE BEST LAWN ON THE BLOCK!</h1>
+  <p class="hero-location-text">We service all of Melbourne!</p>
+  <p class="hero-cta-text"><b>Enter your postcode to check availability</b> 👇</p>
+ 
+  <div class="postcode-lookup">
+  <input type="text" id="postcodeInput" class="postcode-input" placeholder="Enter Postcode">
+  <ul id="postcodeSuggestions" class="postcode-suggestions"></ul>
+  </div>
+ </section>
+
+ <section class="services-section">
+  <h2>OUR SERVICES</h2>
+  <div class="panels-container">
+  <div class="service-panel">
+  <h3>Lawn Mowing</h3>
+  <p>Our core service, providing precise and consistent cuts to keep your lawn looking its best, year-round.</p>
+  <button class="panel-button" onclick="window.location.href='contact.html'">GET QUOTE</button>
+  </div>
+  <div class="service-panel">
+  <h3>Edge Trimming</h3>
+  <p>We'll meticulously trim the edges of your lawn, ensuring a clean, crisp, and professional finish around all borders.</p>
+  <button class="panel-button" onclick="window.location.href='contact.html'">GET QUOTE</button>
+  </div>
+  <div class="service-panel">
+  <h3>Lawn Fertilizing</h3>
+  <p>Nourish your lawn with the right balance of nutrients to promote robust growth, vibrant color, and overall health.</p>
+  <button class="panel-button" onclick="window.location.href='contact.html'">GET QUOTE</button>
+  </div>
+  <div class="service-panel">
+  <h3>Weed Control</h3>
+  <p>Keep your lawn free from unsightly weeds with our effective and environmentally-friendly weed control solutions.</p>
+  <button class="panel-button" onclick="window.location.href='contact.html'">GET QUOTE</button>
+  </div>
+  </div>
+ </section>
+
+ <section class="faq-section">
+  <h2>FREQUENTLY ASKED QUESTIONS</h2>
+  <div class="faq-container">
+  <div class="faq-item">
+  <div class="faq-question">What areas do you service?</div>
+  <div class="faq-answer">We proudly service all metro Melbourne areas. If you're unsure, please contact us with your location, and we'll confirm.</div>
+  </div>
+  <div class="faq-item">
+  <div class="faq-question">How do I get a free quote?</div>
+  <div class="faq-answer">You can get a free, no-obligation quote by filling out our online form below, or by giving us a call. We'll ask a few questions about your lawn size and service needs to provide an accurate estimate.</div>
+  </div>
+  <div class="faq-item">
+  <div class="faq-question">What services do you offer?</div>
+  <div class="faq-answer">We offer comprehensive lawn care services including lawn mowing, precise edge trimming, targeted lawn fertilizing, and effective weed control.</div>
+  </div>
+  <div class="faq-item">
+  <div class="faq-question">How quickly can you mow my lawn?</div>
+  <div class="faq-answer">We aim for fast and efficient service. Depending on our schedule and your location, we can often arrange same-day or next-day service.</div>
+  </div>
+  <div class="faq-item">
+  <div class="faq-question">Do I need to be present during the service?</div>
+  <div class="faq-answer">While it's not strictly necessary, it's often helpful if you're present to guide our team, especially for specific instructions or access details. If you can't be there, clear instructions beforehand are appreciated.</div>
+  </div>
+  </div>
+ </section>
+
+ <section class="testimonials-section">
+  <h2>WHAT OUR CUSTOMERS SAY</h2>
+  <div class="testimonials-container">
+  <div class="testimonial-card">
+  <div class="stars">⭐⭐⭐⭐⭐</div>
+  <p class="testimonial-text">"Absolutely brilliant service! My lawn has never looked better. They were quick, professional, and left the area spotless. Highly recommend for any lawn care needs in Melbourne."</p>
+  <p class="testimonial-author">- Sarah L.</p>
+  </div>
+  <div class="testimonial-card">
+  <div class="stars">⭐⭐⭐⭐⭐</div>
+  <p class="testimonial-text">"Needed urgent lawn mowing before a family gathering, and these guys delivered! Friendly, efficient, and great value. Couldn't be happier with the results."</p>
+  <p class="testimonial-author">- David R.</p>
+  </div>
+  <div class="testimonial-card">
+  <div class="stars">⭐⭐⭐⭐⭐</div>
+  <p class="testimonial-text">"Seamless experience from quote to perfect lawn. They handled everything with ease. Professional and reliable, I'll definitely be a repeat customer."</p>
+  <p class="testimonial-author">- Emily P.</p>
+  </div>
+  </div>
+ </section>
+
+ <section class="quote-form-section">
+  <h2>GET YOUR FREE QUOTE TODAY</h2>
+  <div class="quote-form-panel">
+  <form action="#" method="POST">
+  <label for="name">Name:</label>
+  <input type="text" id="name" name="name" required>
+
+  <label for="email">Email:</label>
+  <input type="email" id="email" name="email" required>
+
+  <label for="phone">Phone:</label>
+  <input type="tel" id="phone" name="phone">
+
+  <label for="service-type">Type of Service:</label>
+  <select id="service-type" name="service_type" required>
+  <option value="">-- Please select --</option>
+  <option value="mowing">Lawn Mowing</option>
+  <option value="trimming">Edge Trimming</option>
+  <option value="fertilizing">Lawn Fertilizing</option>
+  <option value="weed">Weed Control</option>
+  <option value="other">Other (please specify below)</option>
+  </select>
+
+  <label for="message">Details of Service Needed / Message:</label>
+  <textarea id="message" name="message" rows="5" required></textarea>
+
+  <button type="submit">GET MY FREE QUOTE</button>
+  </form>
+  </div>
+ </section>
+
+ <script>
+  function toggleMobileMenu() {
+  document.getElementById("mobileNav").classList.toggle("open");
+  }
+
+  // FAQ Toggle Functionality
+  document.addEventListener('DOMContentLoaded', () => {
+  const faqQuestions = document.querySelectorAll('.faq-question');
+
+  faqQuestions.forEach(question => {
+  question.addEventListener('click', () => {
+  const answer = question.nextElementSibling;
+  question.classList.toggle('active');
+
+  if (answer.style.display === 'block') {
+  answer.style.display = 'none';
+  } else {
+  answer.style.display = 'block';
+  }
+  });
+  });
+
+  // Postcode Lookup Functionality
+  const postcodeInput = document.getElementById('postcodeInput');
+  const postcodeSuggestions = document.getElementById('postcodeSuggestions');
+  const postcodeLookupDiv = document.querySelector('.postcode-lookup');
+
+  const serviceAreas = [
+  "Abbotsford 3067", "Aberfeldie 3040", "Airport West 3042", "Albert Park 3206",
+  "Alphington 3078", "Armadale 3143", "Ascot Vale 3032", "Ashburton 3147",
+  "Ashwood 3147", "Aspendale 3195", "Aspendale Gardens 3195", "Attwood 3049",
+  "Auburn 3123",
+  "Avondale Heights 3034", "Balaclava 3183", "Balwyn 3103",
+  "Balwyn North 3104", "Bayswater 3153", "Bayswater North 3153", "Beaumaris 3193",
+  "Bentleigh 3204", "Bentleigh East 3165", "Berwick 3806", "Blackburn 3130",
+  "Blackburn North 3130", "Blackburn South 3130", "Box Hill 3128", "Box Hill North 3129",
+  "Box Hill South 3128", "Braybrook 3019", "Brighton 3186", "Brighton East 3187",
+  "Broadmeadows 3047", "Brunswick 3056", "Brunswick East 3057", "Brunswick West 3055",
+  "Bundoora 3083", "Burwood 3125", "Burwood East 3151", "Camberwell 3124",
+  "Canterbury 3126", "Carlton 3053", "Carlton North 3054", "Carnegie 3163",
+  "Carrum 3197", "Carrum Downs 3201", "Caulfield 3162", "Caulfield North 3161",
+  "Caulfield South 3162", "Chadstone 3148", "Cheltenham 3192", "Chelsea 3196",
+  "Chelsea Heights 3196", "Cheltenham East 3192", "Chirnside Park 3116", "Clarinda 3169",
+  "Clayton 3168", "Clayton South 3169", "Clifton Hill 3068", "Coburg 3058",
+  "Coburg North 3058", "Collingwood 3066", "Craigieburn 3064", "Cranbourne 3977",
+  "Cranbourne East 3977", "Cranbourne North 3977", "Cranbourne South 3977", "Cranbourne West 3977",
+  "Croydon 3136", "Croydon Hills 3136", "Croydon North 3136", "Croydon South 3136",
+  "Dandenong 3175", "Dandenong North 3175", "Dandenong South 3175", "Deer Park 3023",
+  "Delahey 3037", "Derrimut 3026", "Diamond Creek 3089", "Doncaster 3108",
+  "Doncaster East 3109", "Donvale 3111", "Doreen 3754", "Elsternwick 3185",
+  "Eltham 3095", "Elwood 3184", "Endeavour Hills 3802", "Epping 3076",
+  "Essendon 3040", "Essendon North 3041", "Essendon West 3040", "Fairfield 3078",
+  "Ferntree Gully 3156", "Fitzroy 3065", "Fitzroy North 3068", "Footscray 3011",
+  "Forest Hill 3131", "Frankston 3199", "Frankston North 3200", "Frankston South 3199",
+  "Glen Huntly 3163", "Glen Iris 3146", "Glen Waverley 3150", "Greensborough 3088",
+  "Hallam 3803", "Hampton 3188", "Hampton East 3188", "Hawthorn 3122",
+  "Hawthorn East 3123", "Heidelberg 3084", "Heidelberg Heights 3081", "Heidelberg West 3081",
+  "Highett 3190", "Hoppers Crossing 3029", "Hughesdale 3166", "Huntingdale 3166",
+  "Ivanhoe 3079", "Ivanhoe East 3079", "Jacana 3047", "Keilor 3036",
+  "Keilor Downs 3038", "Keilor East 3033", "Keilor Lodge 3038", "Keilor North 3036",
+  "Keilor Park 3042", "Kensington 3031", "Kew 3101", "Kew East 3102",
+  "Keysborough 3173", "Kilsyth 3137", "Kilsyth South 3137", "Kingsbury 3083",
+  "Kingsville 3012", "Knoxfield 3180", "Kooyong 3144", "Lalor 3075",
+  "Langwarrin 3910", "Laverton 3028", "Lilydale 3140", "Lower Plenty 3093",
+  "Lynbrook 3975", "Lyndhurst 3975", "Lysterfield 3156", "Macleod 3085",
+  "Maidstone 3012", "Malvern 3144", "Malvern East 3145", "Maribyrnong 3032",
+  "McKinnon 3204", "Meadow Heights 3048", "Melbourne 3000", "Melbourne Airport 3045",
+  "Mentone 3194", "Mernda 3754", "Middle Park 3206", "Mill Park 3082",
+  "Mitcham 3132", "Mont Albert 3127", "Montmorency 3094", "Moonee Ponds 3039",
+  "Moorabbin 3189", "Mooroolbark 3138", "Mordialloc 3195", "Mount Eliza 3930",
+  "Mount Evelyn 3796", "Mount Waverley 3149", "Mulgrave 3170", "Murrumbeena 3163",
+  "Narre Warren 3805", "Narre Warren North 3804", "Narre Warren South 3805", "Newport 3015",
+  "Niddrie 3042", "Noble Park 3174", "Noble Park North 3174", "North Melbourne 3051",
+  "Northcote 3070", "Notting Hill 3168", "Nunawading 3131", "Oak Park 3046",
+  "Oakleigh 3166", "Oakleigh East 3166", "Oakleigh South 3167", "Ormond 3204",
+  "Pakenham 3810", "Parkdale 3195", "Parkville 3052", "Pascoe Vale 3044",
+  "Pascoe Vale South 3044", "Patterson Lakes 3197", "Point Cook 3030", "Port Melbourne 3207",
+  "Prahran 3181", "Preston 3072", "Reservoir 3073", "Richmond 3121",
+  "Ringwood 3134", "Ringwood East 3135", "Ringwood North 3134", "Ripponlea 3185",
+  "Rosanna 3084", "Rowville 3178", "Roxburgh Park 3064", "Sandringham 3191",
+  "Scoresby 3179", "Seaford 3198", "Seddon 3011", "Selby 3159",
+  "South Kingsville 3015", "South Melbourne 3205", "South Morang 3752", "South Yarra 3141",
+  "Southbank 3006", "Spotswood 3015", "Springvale 3171", "Springvale South 3172"
+  ];
+
+  // Function to redirect to contact page
+  const redirectToContact = () => {
+  window.location.href = "contact.html"; // Assuming you will create a contact.html
+  };
+
+  postcodeInput.addEventListener('input', function() {
+  const query = this.value.toLowerCase();
+  postcodeSuggestions.innerHTML = ''; // Clear previous suggestions
+
+  if (query.length === 0) {
+  return;
+  }
+
+  const filteredAreas = serviceAreas.filter(area =>
+  area.toLowerCase().includes(query)
+  );
+
+  filteredAreas.forEach(area => {
+  const li = document.createElement('li');
+  li.textContent = area;
+  li.addEventListener('click', function() {
+  postcodeInput.value = this.textContent;
+  postcodeSuggestions.innerHTML = ''; // Hide suggestions
+  redirectToContact(); // Redirect immediately on selection
+  });
+  postcodeSuggestions.appendChild(li);
+  });
+  });
+
+  // Hide suggestions when clicking outside
+  document.addEventListener('click', function(event) {
+  if (!postcodeLookupDiv.contains(event.target)) {
+  postcodeSuggestions.innerHTML = '';
+  }
+  });
+
+  // Redirect if a valid postcode is entered manually and input loses focus
+  postcodeInput.addEventListener('blur', function() {
+  const inputValue = this.value.trim();
+  const isValid = serviceAreas.some(area => area.toLowerCase() === inputValue.toLowerCase());
+  if (isValid) {
+  redirectToContact(); // Redirect immediately on valid blur
+  }
+  });
+
+  // Optional: Add a keypress listener for 'Enter' key
+  postcodeInput.addEventListener('keypress', function(event) {
+  if (event.key === 'Enter') {
+  const inputValue = this.value.trim();
+  const isValid = serviceAreas.some(area => area.toLowerCase() === inputValue.toLowerCase());
+  if (isValid) {
+  redirectToContact(); // Redirect on Enter key if valid
+  }
+  }
+  });
+  });
+ </script>
+</body>
+</html>
