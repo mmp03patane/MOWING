@@ -1,1 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Contact Us - Melbourne Lawn Mowing</title>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@400&family=Oswald:wght@700&family=Roboto:wght@400&display=swap" rel="stylesheet" />
+    <style>
+        /* Universal Box-sizing and Base Styles */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            font-family: 'Nunito Sans', sans-serif;
+            background-color: #f7f7f7;
+            color: #222;
+            line-height: 1.6;
+            font-size: 1.25rem;
+            text-align: center;
+        }
 
+        /* Header Styles */
+        header {
+            background-color: #4CAF50; /* Green header color */
+            color: #fff;
+            padding: 1rem 2rem; /* Original padding for desktop */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+        }
+        .logo img {
+            height: 50px; /* Increased the height of the logo image */
+        }
+
+        /* Desktop Navigation */
+        nav.desktop-nav {
+            display: block; /* Default to block for desktop */
+        }
+        nav.desktop-nav a {
+            color: #fff;
+            text-decoration: none;
+            margin-left: 2rem;
+            font-family: 'Roboto', sans-serif;
+            text-transform: uppercase;
+        }
+
+        /* Hamburger Menu (Hidden by default on desktop) */
+        .hamburger-menu {
+            display: none; /* Hidden on desktop */
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+            flex-direction: column;
+            justify-content: space-between;
+            z-index: 20;
+        }
+        .hamburger-menu .bar {
+            height: 3px;
+            background-color: #fff;
+            width: 100%;
+        }
+
+        /* Mobile Navigation (Hidden by default, shown with JS) */
+        nav.mobile-nav {
+            display: none; /* Hidden by default */
+            position: absolute;
+            top: 100%; /* Positions it right below the header */
+            left: 0;
+            width: 100%;
+            background-color: #4CAF50; /* Ensured mobile nav background matches header */
+            z-index: 15;
+            text-align: right;
+        }
+        nav.mobile-nav.open {
+            display: block; /* Toggled by JavaScript */
+        }
+        nav.mobile-nav a {
+            color: #fff;
+            display: block;
+            padding: 1rem;
+            text-transform: uppercase;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        /* --- Specific Styles for the Contact Page --- */
+
+        /* Main heading for the contact page */
+        .contact-main-heading {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 3rem;
+            color: #33691E; /* Dark green matching other headings */
+            padding-top: 3rem; /* Space from header */
+            margin-bottom: 2rem; /* Space before the form section */
+        }
+
+        /* Adjust the quote form section to be the main content area */
+        .quote-form-section {
+            background-color: #f7f7f7; /* Match body background */
+            padding: 0 1rem 4rem; /* Remove top padding, keep side/bottom */
+            text-align: center;
+        }
+
+        .quote-form-section h2 {
+            font-family: 'Oswald', sans-serif;
+            font-weight: 700;
+            font-size: 2.5rem;
+            color: #33691E; /* Dark green heading */
+            margin-bottom: 2.5rem;
+        }
+
+        .quote-form-panel {
+            background-color: #ffffff; /* White panel */
+            padding: 3rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+            color: #222; /* Black text */
+        }
+
+        .quote-form-panel label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-family: 'Roboto', sans-serif;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        .quote-form-panel input[type="text"],
+        .quote-form-panel input[type="email"],
+        .quote-form-panel input[type="tel"],
+        .quote-form-panel textarea,
+        .quote-form-panel select {
+            width: 100%;
+            padding: 0.8rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-family: 'Nunito Sans', sans-serif;
+            font-size: 1rem;
+            color: #222;
+        }
+
+        .quote-form-panel textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .quote-form-panel button {
+            background-color: #4CAF50;
+            color: #fff;
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.2rem;
+            font-family: 'Roboto', sans-serif;
+            text-transform: uppercase;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: bold;
+            display: block;
+            width: fit-content;
+            margin: 0 auto;
+        }
+
+        .quote-form-panel button:hover {
+            background-color: #81C784;
+        }
+
+        /* --- MEDIA QUERIES FOR MOBILE (max-width: 767px) --- */
+        @media (max-width: 767px) {
+            /* Show hamburger menu and hide desktop nav on mobile */
+            .hamburger-menu {
+                display: flex; /* Show hamburger */
+            }
+            nav.desktop-nav {
+                display: none; /* Hide desktop nav */
+            }
+            /* Apply smaller header padding only on mobile */
+            header {
+                padding: 0.8rem 2rem; /* Reduced top and bottom padding for a smaller mobile header */
+            }
+
+            /* Added styles for logo adjustment on mobile */
+            .logo {
+                margin-left: -1rem; /* Adjust to align */
+            }
+            header {
+                padding-left: 1.5rem;
+                padding-right: 1.5rem;
+            }
+
+            /* Mobile Contact Page Heading */
+            .contact-main-heading {
+                font-size: 2.4rem; /* Smaller font for mobile heading */
+                padding-top: 2rem;
+                margin-bottom: 1.5rem;
+            }
+
+            /* Quote Form Section Mobile Styles */
+            .quote-form-section h2 {
+                font-size: 1.8rem;
+            }
+
+            .quote-form-panel {
+                padding: 2rem 1.5rem;
+                max-width: 90%;
+            }
+
+            .quote-form-panel label {
+                font-size: 0.9rem;
+            }
+
+            .quote-form-panel input[type="text"],
+            .quote-form-panel input[type="email"],
+            .quote-form-panel input[type="tel"],
+            .quote-form-panel textarea,
+            .quote-form-panel select {
+                padding: 0.6rem;
+                font-size: 1.15rem;
+                margin-bottom: 1rem;
+            }
+
+            .quote-form-panel button {
+                padding: 0.8rem 2rem;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <a href="index.html" class="logo">
+            <img src="https://github.com/mmp03patane/MOWING/blob/main/LAWN%20LOGO.jpg?raw=true" alt="Lawn Services Logo" />
+        </a>
+        <div class="hamburger-menu" onclick="toggleMobileMenu()">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <nav class="desktop-nav">
+            <a href="contact.html">Contact</a>
+        </nav>
+        <nav class="mobile-nav" id="mobileNav">
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1 class="contact-main-heading">WE ARE AVAILABLE IN YOUR AREA</h1>
+
+        <section class="quote-form-section">
+            <h2>Get your free quote today!</h2>
+            <div class="quote-form-panel">
+                <form action="#" method="POST">
+                    <label for="name">Name:</label>
+                    <input type="text" id="name" name="name" required>
+
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" required>
+
+                    <label for="phone">Phone:</label>
+                    <input type="tel" id="phone" name="phone">
+
+                    <label for="service-type">Type of Service:</label>
+                    <select id="service-type" name="service_type" required>
+                        <option value="">-- Please select --</option>
+                        <option value="mowing">Lawn Mowing</option>
+                        <option value="trimming">Edge Trimming</option>
+                        <option value="fertilizing">Lawn Fertilizing</option>
+                        <option value="weed">Weed Control</option>
+                        <option value="other">Other (please specify below)</option>
+                    </select>
+
+                    <label for="message">Details of Service Needed / Message:</label>
+                    <textarea id="message" name="message" rows="5" required></textarea>
+
+                    <button type="submit">GET MY FREE QUOTE</button>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function toggleMobileMenu() {
+            document.getElementById("mobileNav").classList.toggle("open");
+        }
+        // No other JavaScript is needed for this simple contact page.
+    </script>
+</body>
+</html>
